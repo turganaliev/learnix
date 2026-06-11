@@ -3,6 +3,7 @@ package com.turganaliev.learning_management;
 import com.turganaliev.learning_management.dto.UserRegistrationDto;
 import com.turganaliev.learning_management.exception.UserNameAlreadyExistsException;
 import com.turganaliev.learning_management.model.User;
+import com.turganaliev.learning_management.service.ChatService;
 import com.turganaliev.learning_management.service.UserService;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -25,6 +26,9 @@ public class AuthControllerTest {
 
     @MockitoBean
     private UserService userService;
+
+    @MockitoBean
+    private ChatService chatService;
 
     @Autowired
     private ObjectMapper objectMapper;
