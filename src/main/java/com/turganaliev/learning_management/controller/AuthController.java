@@ -1,5 +1,6 @@
 package com.turganaliev.learning_management.controller;
 
+import com.turganaliev.learning_management.dto.AuthResponseDto;
 import com.turganaliev.learning_management.dto.UserLoginDto;
 import com.turganaliev.learning_management.dto.UserRegistrationDto;
 import com.turganaliev.learning_management.model.User;
@@ -24,7 +25,7 @@ public class AuthController {
 
     @PostMapping("/login")
     public ResponseEntity<?> login(@Valid @RequestBody UserLoginDto loginData) {
-        User user = userService.loginUser(loginData);
+        AuthResponseDto user = userService.loginUser(loginData);
         return ResponseEntity.ok(user);
     }
 }

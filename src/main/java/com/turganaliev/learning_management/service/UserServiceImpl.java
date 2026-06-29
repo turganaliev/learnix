@@ -1,5 +1,6 @@
 package com.turganaliev.learning_management.service;
 
+import com.turganaliev.learning_management.dto.AuthResponseDto;
 import com.turganaliev.learning_management.dto.UserLoginDto;
 import com.turganaliev.learning_management.dto.UserRegistrationDto;
 import com.turganaliev.learning_management.exception.InvalidPasswordException;
@@ -18,6 +19,7 @@ public class UserServiceImpl implements UserService {
 
     private final UserRepository userRepository;
     private final PasswordEncoder passwordEncoder;
+    private final JwtService jwtService;
 
     @Override
     public User registerUser(UserRegistrationDto userData) {
@@ -41,7 +43,7 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public User loginUser(UserLoginDto loginData) {
+    public AuthResponseDto loginUser(UserLoginDto loginData) {
         User user = userRepository.findByUsername(loginData.getUsername())
                 .orElseThrow(() -> new UserNotFoundException("User not found!"));
 
@@ -49,6 +51,7 @@ public class UserServiceImpl implements UserService {
             throw new InvalidPasswordException("Invalid password!");
         }
 
-        return user;
+        String token = jwtService.generateToken(user.getUsername());
+        return new AuthResponseDto(token, user.getUsername(), user.getRole());
     }
 }

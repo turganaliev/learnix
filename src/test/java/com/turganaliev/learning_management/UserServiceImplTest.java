@@ -1,10 +1,12 @@
 package com.turganaliev.learning_management;
 
+import com.turganaliev.learning_management.dto.AuthResponseDto;
 import com.turganaliev.learning_management.dto.UserLoginDto;
 import com.turganaliev.learning_management.dto.UserRegistrationDto;
 import com.turganaliev.learning_management.model.Role;
 import com.turganaliev.learning_management.model.User;
 import com.turganaliev.learning_management.repository.UserRepository;
+import com.turganaliev.learning_management.service.JwtService;
 import com.turganaliev.learning_management.service.UserServiceImpl;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -26,6 +28,9 @@ public class UserServiceImplTest {
     @Mock
     private PasswordEncoder passwordEncoder;
 
+    @Mock
+    private JwtService jwtService;
+
     @InjectMocks
     private UserServiceImpl userService;
 
@@ -41,8 +46,9 @@ public class UserServiceImplTest {
 
         when(userRepository.findByUsername("john1234")).thenReturn(Optional.of(fakeUser));
         when(passwordEncoder.matches("password1234", "hashedPassword")).thenReturn(true);
+        when(jwtService.generateToken("john1234")).thenReturn("fake-jwt-token");
 
-        User result = userService.loginUser(loginDto);
+        AuthResponseDto result = userService.loginUser(loginDto);
         assertNotNull(result);
         assertEquals("john1234", result.getUsername());
     }
