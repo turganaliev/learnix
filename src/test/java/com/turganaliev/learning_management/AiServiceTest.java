@@ -52,8 +52,8 @@ class AiServiceTest {
         when(restTemplate.postForEntity(anyString(), any(HttpEntity.class), eq(Map.class)))
                 .thenThrow(new RestClientException("API unavailable"));
 
-        assertThrows(RestClientException.class, () -> {
-            aiService.explainText("explain photosynthesis");
-        });
+        String result = aiService.explainText("explain photosynthesis");
+
+        assertEquals("Sorry, the AI assistant is temporarily unavailable. Please try again later.", result);
     }
 }
