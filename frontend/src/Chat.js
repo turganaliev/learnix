@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import api from './api';
 
 function Chat() {
   const [input, setInput] = useState('');
@@ -14,17 +15,8 @@ function Chat() {
     setLoading(true);
 
     try {
-      const token = localStorage.getItem('token');
-      const response = await fetch('http://localhost:8080/api/chat/request', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-          'Authorization': 'Bearer ' + token
-        },
-        body: JSON.stringify({ message: input })
-      });
-      const data = await response.json();
-      const aiMessage = { sender: 'ai', text: data.response };
+      const response = await api.post('/chat/request', { message: input});
+      const aiMessage = { sender: 'ai', text: response.data.response };
       setMessages(prev => [...prev, aiMessage]);
     } catch (error) {
       console.error('Error:', error);
