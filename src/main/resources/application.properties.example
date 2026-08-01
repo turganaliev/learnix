@@ -1,12 +1,9 @@
 spring.application.name=learning-management-system
 
-spring.datasource.url=jdbc:h2:mem:learningdb;DB_CLOSE_DELAY=-1;DB_CLOSE_ON_EXIT=FALSE
-spring.datasource.driver-class-name=org.h2.Driver
-spring.datasource.username=sa
-spring.datasource.password=
-
-spring.h2.console.enabled=true
-spring.h2.console.path=/h2-console
+spring.datasource.url=jdbc:postgresql://localhost:5432/my_db_name
+spring.datasource.username=my_username
+spring.datasource.password=my_password
+spring.datasource.driver-class-name=org.postgresql.Driver
 
 spring.jpa.database-platform=org.hibernate.dialect.H2Dialect
 spring.jpa.hibernate.ddl-auto=create-drop
