@@ -1,15 +1,2 @@
 spring.application.name=learning-management-system
-
-spring.datasource.url=jdbc:postgresql://localhost:5432/my_db_name
-spring.datasource.username=my_username
-spring.datasource.password=my_password
-spring.datasource.driver-class-name=org.postgresql.Driver
-
-spring.jpa.database-platform=org.hibernate.dialect.H2Dialect
-spring.jpa.hibernate.ddl-auto=create-drop
-spring.jpa.show-sql=true
-
-ai.api.key=api-key
-
-jwt.secret=mySuperSecretKeyThatIsAtLeast32CharactersLongForHS256
-jwt.expiration=86400000
+spring.profiles.active=dev
