@@ -2,6 +2,7 @@ package com.turganaliev.learning_management.model;
 
 import jakarta.persistence.*;
 import lombok.Data;
+import lombok.ToString;
 
 import java.time.LocalDateTime;
 
@@ -23,5 +24,6 @@ public class ChatMessage {
 
     @ManyToOne
     @JoinColumn(name = "chat_session_id")
+    @ToString.Exclude
     private ChatSession chatSession;
 }
