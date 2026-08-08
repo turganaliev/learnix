@@ -2,6 +2,7 @@ package com.turganaliev.learning_management;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.turganaliev.learning_management.dto.ChatRequestDto;
+import com.turganaliev.learning_management.dto.ChatResponseDto;
 import com.turganaliev.learning_management.service.ChatService;
 import com.turganaliev.learning_management.service.JwtService;
 import com.turganaliev.learning_management.service.UserService;
@@ -52,7 +53,7 @@ class ChatControllerTest {
         ChatRequestDto dto = new ChatRequestDto();
         dto.setMessage("explain photosynthesis");
 
-        when(chatService.chat(any())).thenReturn("AI explanation here");
+        when(chatService.chat(any(), any())).thenReturn(new ChatResponseDto("AI explanation here", 1L));
 
         mockMvc.perform(post("/api/chat/request")
                         .contentType(MediaType.APPLICATION_JSON)

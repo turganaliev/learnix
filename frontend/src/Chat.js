@@ -6,6 +6,7 @@ function Chat() {
   const [messages, setMessages] = useState([]);
   const [loading, setLoading] = useState(false);
   const messagesEndRef = useRef(null);
+  const [sessionId, setSessionId] = useState(null);
 
   useEffect(() => {
     messagesEndRef.current?.scrollIntoView({ behavior: 'smooth' });
@@ -20,9 +21,10 @@ function Chat() {
     setLoading(true);
 
     try {
-      const response = await api.post('/chat/request', { message: input});
+      const response = await api.post('/chat/request', { message: input, chatSessionId: sessionId });
       const aiMessage = { id: Date.now() + 1, sender: 'ai', text: response.data.response };
       setMessages(prev => [...prev, aiMessage]);
+      setSessionId(response.data.chatSessionId);
     } catch (error) {
       console.error('Error:', error);
       const errorMessage = { id: Date.now() + 1, sender: 'ai', text: 'Something went wrong. Please try again.' };

@@ -1,13 +1,11 @@
 package com.turganaliev.learning_management.dto;
 
-import jakarta.validation.constraints.NotBlank;
+import lombok.AllArgsConstructor;
 import lombok.Data;
 
 @Data
+@AllArgsConstructor
 public class ChatResponseDto {
     private String response;
-
-    public ChatResponseDto(String response) {
-        this.response = response;
-    }
+    private Long chatSessionId;
 }

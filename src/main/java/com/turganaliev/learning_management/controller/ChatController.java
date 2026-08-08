@@ -19,7 +19,7 @@ public class ChatController {
 
     @PostMapping("/request")
     public ResponseEntity<?> request(@Valid @RequestBody ChatRequestDto message) {
-        String msg = chatService.chat(message.getMessage());
-        return ResponseEntity.ok(new ChatResponseDto(msg));
+        ChatResponseDto response = chatService.chat(message.getMessage(), message.getChatSessionId());
+        return ResponseEntity.ok(response);
     }
 }
