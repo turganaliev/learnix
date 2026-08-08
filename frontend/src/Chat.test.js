@@ -42,7 +42,7 @@ test('lets user type a message', async () => {
 test('sends message and displays AI response with auth header', async () => {
   mock.onPost('/chat/request').reply((config) => {
     expect(config.headers.Authorization).toBe('Bearer fake-test-token');
-    expect(JSON.parse(config.data)).toEqual({ message: 'Hello AI' });
+    expect(JSON.parse(config.data)).toEqual({ message: 'Hello AI', chatSessionId: null });
     return [200, { response: 'Hello human!' }];
   });
 
