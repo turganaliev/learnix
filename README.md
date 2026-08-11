@@ -1,4 +1,4 @@
-# Learning Management System
+# Learnix
 
 A RESTful API built with Java and Spring Boot for managing learning resources,
 featuring an integrated AI assistant to help explain learning content.
