@@ -1,6 +1,8 @@
 package com.turganaliev.learning_management.service;
 
+import com.turganaliev.learning_management.dto.ChatMessageResponseDto;
 import com.turganaliev.learning_management.dto.ChatResponseDto;
+import com.turganaliev.learning_management.dto.ChatSessionResponseDto;
 import com.turganaliev.learning_management.exception.UserNotFoundException;
 import com.turganaliev.learning_management.model.ChatMessage;
 import com.turganaliev.learning_management.model.ChatSession;
@@ -14,6 +16,8 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
+import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
@@ -58,5 +62,38 @@ public class ChatServiceImpl implements ChatService {
         chatMessageRepository.save(aiMessage);
 
         return new ChatResponseDto(aiResponseText, chatSession.getId());
+    }
+
+    @Override
+    public List<ChatSessionResponseDto> getUserSessions() {
+        String username = SecurityContextHolder.getContext().getAuthentication().getName();
+        User user = userRepository.findByUsername(username)
+                .orElseThrow(() -> new UserNotFoundException("User not found!"));
+
+        List<ChatSession> sessions = chatSessionRepository.findByUserOrderByCreatedAtDesc(user);
+
+        return sessions.stream()
+                .map(sn -> new ChatSessionResponseDto(sn.getId(), sn.getTitle(), sn.getCreatedAt()))
+                .collect(Collectors.toList());
+    }
+
+    @Override
+    public List<ChatMessageResponseDto> getSessionMessages(Long sessionId) {
+        String username = SecurityContextHolder.getContext().getAuthentication().getName();
+        User currentUser = userRepository.findByUsername(username)
+                .orElseThrow(() -> new UserNotFoundException("User not found!"));
+
+        ChatSession chatSession = chatSessionRepository.findById(sessionId)
+                .orElseThrow(() -> new RuntimeException("Chat session not found!"));
+
+        if (!chatSession.getUser().getId().equals(currentUser.getId())) {
+            throw new RuntimeException("You do not have access to this chat session");
+        }
+
+        List<ChatMessage> messages = chatMessageRepository.findByChatSessionOrderByTimestampAsc(chatSession);
+
+        return messages.stream()
+                .map(msg -> new ChatMessageResponseDto(msg.getContent(), msg.getSender(), msg.getTimestamp()))
+                .collect(Collectors.toList());
     }
 }
