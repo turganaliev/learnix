@@ -8,6 +8,7 @@ function Chat() {
   const [loading, setLoading] = useState(false);
   const messagesEndRef = useRef(null);
   const [sessionId, setSessionId] = useState(null);
+  const [refreshTrigger, setRefreshTrigger] = useState(0);
 
   useEffect(() => {
     messagesEndRef.current?.scrollIntoView({ behavior: 'smooth' });
@@ -26,6 +27,7 @@ function Chat() {
       const aiMessage = { id: Date.now() + 1, sender: 'ai', text: response.data.response };
       setMessages(prev => [...prev, aiMessage]);
       setSessionId(response.data.chatSessionId);
+      setRefreshTrigger(prev => prev + 1);
     } catch (error) {
       console.error('Error:', error);
       const errorMessage = { id: Date.now() + 1, sender: 'ai', text: 'Something went wrong. Please try again.' };
@@ -53,9 +55,17 @@ function Chat() {
     }
   };
 
+  const handleNewChat = () => {
+    setMessages([]);
+    setSessionId(null);
+  };
+
   return (
-    <div style={{ display: 'flex', gap: '20px' }}>
-      <ChatSidebar onSelectSession={handleSelectSession} />
+    <div style={{ display: 'flex', gap: '20px', alignItems: 'flex-start', padding: '20px' }}>
+      <div>
+        <button onClick={handleNewChat}>New Chat</button>
+        <ChatSidebar onSelectSession={handleSelectSession} refreshTrigger={refreshTrigger} />
+      </div>
       <div>
         <h1>Chat</h1>
         <div>
@@ -71,6 +81,11 @@ function Chat() {
           value={input}
           placeholder="Type your message..."
           onChange={(e) => setInput(e.target.value)}
+          onKeyDown={(e) => {
+            if (e.key === 'Enter') {
+              handleSend();
+            }
+          }}
         />
         <button onClick={handleSend}>Send</button>
       </div>

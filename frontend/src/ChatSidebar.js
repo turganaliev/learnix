@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import api from './api';
 
-function ChatSidebar({ onSelectSession }) {
+function ChatSidebar({ onSelectSession, refreshTrigger }) {
   const [sessions, setSessions] = useState([]);
   const [loading, setLoading] = useState(false);
 
@@ -19,7 +19,7 @@ function ChatSidebar({ onSelectSession }) {
     };
 
     fetchSessions();
-  }, []);
+  }, [refreshTrigger]);
 
   if (loading) {
     return <p>Loading conversations...</p>;
@@ -32,10 +32,19 @@ function ChatSidebar({ onSelectSession }) {
   return (
     <div>
       <h3>Conversations</h3>
-      <ul>
+      <ul style={{ listStyle: 'none', padding: 0, margin: 0 }}>
         {sessions.map((session) => (
           <li key={session.id}>
-            <button onClick={() => onSelectSession(session.id)}>
+            <button
+              onClick={() => onSelectSession(session.id)}
+              style={{
+                width: '250px',
+                textAlign: 'left',
+                padding: '8px',
+                marginBottom: '4px',
+                cursor: 'pointer'
+              }}
+            >
               {session.title}
             </button>
           </li>
