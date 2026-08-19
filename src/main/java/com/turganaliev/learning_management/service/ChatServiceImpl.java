@@ -3,6 +3,8 @@ package com.turganaliev.learning_management.service;
 import com.turganaliev.learning_management.dto.ChatMessageResponseDto;
 import com.turganaliev.learning_management.dto.ChatResponseDto;
 import com.turganaliev.learning_management.dto.ChatSessionResponseDto;
+import com.turganaliev.learning_management.exception.ChatSessionNotFoundException;
+import com.turganaliev.learning_management.exception.UnauthorizedAccessException;
 import com.turganaliev.learning_management.exception.UserNotFoundException;
 import com.turganaliev.learning_management.model.ChatMessage;
 import com.turganaliev.learning_management.model.ChatSession;
@@ -42,7 +44,7 @@ public class ChatServiceImpl implements ChatService {
             chatSession = chatSessionRepository.save(newSession);
         } else {
             chatSession = chatSessionRepository.findById(sessionId)
-                    .orElseThrow(() -> new RuntimeException("Chat session not found"));
+                    .orElseThrow(() -> new ChatSessionNotFoundException("Chat session not found"));
         }
 
         ChatMessage userMessage = new ChatMessage();
@@ -84,10 +86,10 @@ public class ChatServiceImpl implements ChatService {
                 .orElseThrow(() -> new UserNotFoundException("User not found!"));
 
         ChatSession chatSession = chatSessionRepository.findById(sessionId)
-                .orElseThrow(() -> new RuntimeException("Chat session not found!"));
+                .orElseThrow(() -> new ChatSessionNotFoundException("Chat session not found!"));
 
         if (!chatSession.getUser().getId().equals(currentUser.getId())) {
-            throw new RuntimeException("You do not have access to this chat session");
+            throw new UnauthorizedAccessException("You do not have access to this chat session");
         }
 
         List<ChatMessage> messages = chatMessageRepository.findByChatSessionOrderByTimestampAsc(chatSession);
