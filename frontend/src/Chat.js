@@ -1,5 +1,6 @@
 import React, { useState, useRef, useEffect } from 'react';
 import api from './api';
+import ChatSidebar from './ChatSidebar';
 
 function Chat() {
   const [input, setInput] = useState('');
@@ -34,24 +35,45 @@ function Chat() {
     }
   };
 
+  const handleSelectSession = async (selectedSessionId) => {
+    setLoading(true);
+    try {
+      const response = await api.get(`/chat/sessions/${selectedSessionId}`);
+      const loadedMessages = response.data.map((msg, index) => ({
+        id: index,
+        sender: msg.sender === 'USER' ? 'user' : 'ai',
+        text: msg.content
+      }));
+      setMessages(loadedMessages);
+      setSessionId(selectedSessionId);
+    } catch (error) {
+      console.error('Error loading session:', error);
+    } finally {
+      setLoading(false);
+    }
+  };
+
   return (
-    <div>
-      <h1>Chat</h1>
+    <div style={{ display: 'flex', gap: '20px' }}>
+      <ChatSidebar onSelectSession={handleSelectSession} />
       <div>
-        {messages.map((msg) => (
-          <p key={msg.id}>
-            <strong>{msg.sender === 'user' ? 'You' : 'AI'}:</strong> {msg.text}
-          </p>
-        ))}
-        {loading && <p><em>AI is thinking...</em></p>}
-        <div ref={messagesEndRef} />
+        <h1>Chat</h1>
+        <div>
+          {messages.map((msg) => (
+            <p key={msg.id}>
+              <strong>{msg.sender === 'user' ? 'You' : 'AI'}:</strong> {msg.text}
+            </p>
+          ))}
+          {loading && <p><em>AI is thinking...</em></p>}
+          <div ref={messagesEndRef} />
+        </div>
+        <input
+          value={input}
+          placeholder="Type your message..."
+          onChange={(e) => setInput(e.target.value)}
+        />
+        <button onClick={handleSend}>Send</button>
       </div>
-      <input
-        value={input}
-        placeholder="Type your message..."
-        onChange={(e) => setInput(e.target.value)}
-      />
-      <button onClick={handleSend}>Send</button>
     </div>
   );
 }
