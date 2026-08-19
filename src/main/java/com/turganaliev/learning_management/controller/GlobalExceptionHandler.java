@@ -1,8 +1,6 @@
 package com.turganaliev.learning_management.controller;
 
-import com.turganaliev.learning_management.exception.InvalidPasswordException;
-import com.turganaliev.learning_management.exception.UserNameAlreadyExistsException;
-import com.turganaliev.learning_management.exception.UserNotFoundException;
+import com.turganaliev.learning_management.exception.*;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
@@ -32,6 +30,16 @@ public class GlobalExceptionHandler {
     @ExceptionHandler(UserNotFoundException.class)
     public ResponseEntity<String> handleUserNotFound(UserNotFoundException ex) {
         return ResponseEntity.status(404).body(ex.getMessage());
+    }
+
+    @ExceptionHandler(ChatSessionNotFoundException.class)
+    public ResponseEntity<String> handleChatSessionNotFound(ChatSessionNotFoundException ex) {
+        return ResponseEntity.status(404).body(ex.getMessage());
+    }
+
+    @ExceptionHandler(UnauthorizedAccessException.class)
+    public ResponseEntity<String> handleUnauthorizedAccessException(UnauthorizedAccessException ex) {
+        return ResponseEntity.status(403).body(ex.getMessage());
     }
 
     @ExceptionHandler(InvalidPasswordException.class)
