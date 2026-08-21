@@ -18,6 +18,8 @@ public class Section {
     @Column(columnDefinition = "TEXT")
     private String content;
 
+    private Integer orderIndex;
+
     @ManyToOne
     @JoinColumn(name = "course_id")
     @ToString.Exclude

@@ -46,4 +46,9 @@ public class GlobalExceptionHandler {
     public ResponseEntity<String> handleInvalidPassword(InvalidPasswordException ex) {
         return ResponseEntity.status(401).body(ex.getMessage());
     }
+
+    @ExceptionHandler(CourseNotFoundException.class)
+    public ResponseEntity<String> handleCourseNotFound(CourseNotFoundException ex) {
+        return ResponseEntity.status(404).body(ex.getMessage());
+    }
 }
