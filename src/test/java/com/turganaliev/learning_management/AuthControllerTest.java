@@ -4,6 +4,7 @@ import com.turganaliev.learning_management.dto.UserRegistrationDto;
 import com.turganaliev.learning_management.exception.UserNameAlreadyExistsException;
 import com.turganaliev.learning_management.model.User;
 import com.turganaliev.learning_management.service.ChatService;
+import com.turganaliev.learning_management.service.CourseService;
 import com.turganaliev.learning_management.service.JwtService;
 import com.turganaliev.learning_management.service.UserService;
 import org.junit.jupiter.api.Test;
@@ -33,6 +34,9 @@ public class AuthControllerTest {
 
     @MockitoBean
     private JwtService jwtService;
+
+    @MockitoBean
+    private CourseService courseService;
 
     @Autowired
     private ObjectMapper objectMapper;

@@ -4,6 +4,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.turganaliev.learning_management.dto.ChatRequestDto;
 import com.turganaliev.learning_management.dto.ChatResponseDto;
 import com.turganaliev.learning_management.service.ChatService;
+import com.turganaliev.learning_management.service.CourseService;
 import com.turganaliev.learning_management.service.JwtService;
 import com.turganaliev.learning_management.service.UserService;
 import org.junit.jupiter.api.Test;
@@ -36,16 +37,8 @@ class ChatControllerTest {
     @MockitoBean
     private UserService userService;
 
-//    @Test
-//    void chat_Unauthorized_NoToken() throws Exception {
-//        ChatRequestDto dto = new ChatRequestDto();
-//        dto.setMessage("hello");
-//
-//        mockMvc.perform(post("/api/chat/request")
-//                        .contentType(MediaType.APPLICATION_JSON)
-//                        .content(objectMapper.writeValueAsString(dto)))
-//                .andExpect(status().isForbidden());
-//    }
+    @MockitoBean
+    private CourseService courseService;
 
     @Test
     @WithMockUser
