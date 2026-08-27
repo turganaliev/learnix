@@ -6,11 +6,13 @@ import api from './api';
 import Chat from './Chat';
 window.HTMLElement.prototype.scrollIntoView = jest.fn();
 
+jest.mock('react-markdown');
 let mock;
 
 beforeEach(() => {
   localStorage.setItem('token', 'fake-test-token');
   mock = new MockAdapter(api);
+  mock.onGet('/chat/sessions').reply(200, []);
 });
 
 afterEach(() => {
@@ -21,7 +23,7 @@ afterEach(() => {
 test('renders input field and send button', () => {
   render(<Chat />);
 
-  const input = screen.getByPlaceholderText('Type your message...');
+  const input = screen.getByPlaceholderText('Ask a question…');
   const button = screen.getByRole('button', { name: /send/i });
 
   expect(input).toBeInTheDocument();
@@ -31,7 +33,7 @@ test('renders input field and send button', () => {
 test('lets user type a message', async () => {
   render(<Chat />);
 
-  const input = screen.getByPlaceholderText('Type your message...');
+  const input = screen.getByPlaceholderText('Ask a question…');
   const user = userEvent.setup();
 
   await user.type(input, 'Hello AI');
@@ -48,7 +50,7 @@ test('sends message and displays AI response with auth header', async () => {
 
   render(<Chat />);
 
-  const input = screen.getByPlaceholderText('Type your message...');
+  const input = screen.getByPlaceholderText('Ask a question…');
   const button = screen.getByRole('button', { name: /send/i });
   const user = userEvent.setup();
 

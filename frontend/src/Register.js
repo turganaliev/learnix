@@ -30,22 +30,27 @@ function Register() {
     }
   };
 
-  return (
-    <div>
-      <h1>Register</h1>
-      <form onSubmit={handleSubmit}>
-        <input name="firstName" placeholder="First Name" onChange={handleChange} /><br/>
-        <input name="lastName" placeholder="Last Name" onChange={handleChange} /><br/>
-        <input name="username" placeholder="Username" onChange={handleChange} /><br/>
-        <input name="email" placeholder="Email" onChange={handleChange} /><br/>
-        <input name="password" type="password" placeholder="Password" onChange={handleChange} /><br/>
-        <button type="submit">Register</button>
-      </form>
-      {Object.entries(errors).map(([field, message]) => (
-          <p key={field} style={{color: 'red'}}>{field}: {message}</p>
-      ))}
-    </div>
-  );
+    return (
+      <div className="auth-page">
+        <div className="auth-card">
+          <h1>Create your account</h1>
+          <p className="auth-sub">Start asking questions about what you're studying.</p>
+
+          <form onSubmit={handleSubmit}>
+            <input name="firstName" placeholder="First name" onChange={handleChange} />
+            <input name="lastName" placeholder="Last name" onChange={handleChange} />
+            <input name="username" placeholder="Username" onChange={handleChange} />
+            <input name="email" placeholder="Email" onChange={handleChange} />
+            <input name="password" type="password" placeholder="Password" onChange={handleChange} />
+            <button type="submit">Create account</button>
+          </form>
+
+          {Object.entries(errors).map(([field, message]) => (
+            <p key={field} className="field-error">{message}</p>
+          ))}
+        </div>
+      </div>
+    );
 }
 
 export default Register;

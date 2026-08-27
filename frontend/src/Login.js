@@ -28,17 +28,24 @@ function Login() {
     }
   };
 
-  return (
-    <div>
-      <h1>Login</h1> {message && <p style={{color: 'orange'}}>{message}</p>}
-      <form onSubmit={handleSubmit}>
-        <input name="username" placeholder="Username" onChange={handleChange} /><br/>
-        <input name="password" type="password" placeholder="Password" onChange={handleChange} /><br/>
-        <button type="submit">Login</button>
-      </form>
-      {error && <p style={{color: 'red'}}>{error}</p>}
-    </div>
-  );
+    return (
+      <div className="auth-page">
+        <div className="auth-card">
+          <h1>Welcome back</h1>
+          <p className="auth-sub">Sign in to continue your conversations.</p>
+
+          {message && <p className="notice notice-warn">{message}</p>}
+
+          <form onSubmit={handleSubmit}>
+            <input name="username" placeholder="Username" onChange={handleChange} />
+            <input name="password" type="password" placeholder="Password" onChange={handleChange} />
+            <button type="submit">Sign in</button>
+          </form>
+
+          {error && <p className="field-error">{error}</p>}
+        </div>
+      </div>
+    );
 }
 
 export default Login;
