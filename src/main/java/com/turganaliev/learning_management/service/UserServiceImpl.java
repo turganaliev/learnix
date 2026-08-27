@@ -3,6 +3,7 @@ package com.turganaliev.learning_management.service;
 import com.turganaliev.learning_management.dto.AuthResponseDto;
 import com.turganaliev.learning_management.dto.UserLoginDto;
 import com.turganaliev.learning_management.dto.UserRegistrationDto;
+import com.turganaliev.learning_management.dto.UserResponseDto;
 import com.turganaliev.learning_management.exception.InvalidPasswordException;
 import com.turganaliev.learning_management.exception.UserNameAlreadyExistsException;
 import com.turganaliev.learning_management.exception.UserNotFoundException;
@@ -22,7 +23,7 @@ public class UserServiceImpl implements UserService {
     private final JwtService jwtService;
 
     @Override
-    public User registerUser(UserRegistrationDto userData) {
+    public UserResponseDto registerUser(UserRegistrationDto userData) {
         if (userRepository.findByUsername(userData.getUsername()).isPresent()) {
             throw new UserNameAlreadyExistsException("Username already exists!");
         }
@@ -34,7 +35,15 @@ public class UserServiceImpl implements UserService {
         user.setUsername(userData.getUsername());
         user.setPasswordHash(passwordEncoder.encode(userData.getPassword()));
         user.setRole(Role.STUDENT);
-        return userRepository.save(user);
+        User savedUser = userRepository.save(user);
+        return new UserResponseDto(
+                savedUser.getId(),
+                savedUser.getUsername(),
+                savedUser.getFirstName(),
+                savedUser.getLastName(),
+                savedUser.getEmail(),
+                savedUser.getRole()
+        );
     }
 
     @Override

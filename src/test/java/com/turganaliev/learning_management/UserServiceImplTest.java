@@ -3,6 +3,7 @@ package com.turganaliev.learning_management;
 import com.turganaliev.learning_management.dto.AuthResponseDto;
 import com.turganaliev.learning_management.dto.UserLoginDto;
 import com.turganaliev.learning_management.dto.UserRegistrationDto;
+import com.turganaliev.learning_management.dto.UserResponseDto;
 import com.turganaliev.learning_management.model.Role;
 import com.turganaliev.learning_management.model.User;
 import com.turganaliev.learning_management.repository.UserRepository;
@@ -82,11 +83,10 @@ public class UserServiceImplTest {
         when(passwordEncoder.encode("password123")).thenReturn("hashedPassword");
         when(userRepository.save(any(User.class))).thenAnswer(i -> i.getArgument(0));
 
-        User result = userService.registerUser(dto);
+        UserResponseDto result = userService.registerUser(dto);
 
         assertNotNull(result);
         assertEquals("john123", result.getUsername());
-        assertEquals("hashedPassword", result.getPasswordHash());
         assertEquals(Role.STUDENT, result.getRole());
     }
 
