@@ -3,7 +3,7 @@ package com.turganaliev.learning_management.controller;
 import com.turganaliev.learning_management.dto.AuthResponseDto;
 import com.turganaliev.learning_management.dto.UserLoginDto;
 import com.turganaliev.learning_management.dto.UserRegistrationDto;
-import com.turganaliev.learning_management.model.User;
+import com.turganaliev.learning_management.dto.UserResponseDto;
 import com.turganaliev.learning_management.service.UserService;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
@@ -19,7 +19,7 @@ public class AuthController {
 
     @PostMapping("/register")
     public ResponseEntity<?> register(@Valid @RequestBody UserRegistrationDto userData) {
-        User newUser = userService.registerUser(userData);
+        UserResponseDto newUser = userService.registerUser(userData);
         return ResponseEntity.ok(newUser);
     }
 

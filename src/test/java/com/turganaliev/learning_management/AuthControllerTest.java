@@ -1,8 +1,9 @@
 package com.turganaliev.learning_management;
 
 import com.turganaliev.learning_management.dto.UserRegistrationDto;
+import com.turganaliev.learning_management.dto.UserResponseDto;
 import com.turganaliev.learning_management.exception.UserNameAlreadyExistsException;
-import com.turganaliev.learning_management.model.User;
+import com.turganaliev.learning_management.model.Role;
 import com.turganaliev.learning_management.service.ChatService;
 import com.turganaliev.learning_management.service.CourseService;
 import com.turganaliev.learning_management.service.JwtService;
@@ -50,8 +51,9 @@ public class AuthControllerTest {
         dto.setFirstName("John");
         dto.setLastName("Doe");
 
-        User fakeUser = new User();
-        fakeUser.setUsername("john123");
+        UserResponseDto fakeUser = new UserResponseDto(
+                1L, "john123", "John", "Doe", "john@gmail.com", Role.STUDENT
+        );
 
         when(userService.registerUser(any())).thenReturn(fakeUser);
 
