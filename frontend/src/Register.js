@@ -1,7 +1,9 @@
 import React, { useState } from 'react';
 import api from './api';
+import { Link, useNavigate } from 'react-router-dom';
 
 function Register() {
+  const navigate = useNavigate();
   const [formData, setFormData] = useState({
     firstName: '',
     lastName: '',
@@ -19,7 +21,7 @@ function Register() {
     e.preventDefault();
     try {
       await api.post('/users/register', formData);
-      alert('Registration successful!')
+      navigate('/login', { state: { message: 'Account created. Please sign in.'} });
     } catch (error) {
       console.error('Error:', error);
       if (error.response && error.response.data) {
@@ -44,6 +46,9 @@ function Register() {
             <input name="password" type="password" placeholder="Password" onChange={handleChange} />
             <button type="submit">Create account</button>
           </form>
+          <p className="auth-alt">
+            Already have an account? <Link to="/login">Sign in</Link>
+          </p>
 
           {Object.entries(errors).map(([field, message]) => (
             <p key={field} className="field-error">{message}</p>
