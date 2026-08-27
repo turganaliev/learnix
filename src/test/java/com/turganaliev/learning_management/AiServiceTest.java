@@ -54,6 +54,6 @@ class AiServiceTest {
 
         String result = aiService.explainText("explain photosynthesis");
 
-        assertEquals("Sorry, the AI assistant is temporarily unavailable. Please try again later.", result);
+        assertEquals("The assistant is temporarily unavailable. Please try again shortly.", result);
     }
 }

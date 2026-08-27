@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { useNavigate, useLocation} from 'react-router-dom';
+import { useNavigate, useLocation, Link} from 'react-router-dom';
 import api from './api';
 
 function Login() {
@@ -41,6 +41,9 @@ function Login() {
             <input name="password" type="password" placeholder="Password" onChange={handleChange} />
             <button type="submit">Sign in</button>
           </form>
+          <p className="auth-alt">
+            New here? <Link to="/register">Create an account</Link>
+          </p>
 
           {error && <p className="field-error">{error}</p>}
         </div>

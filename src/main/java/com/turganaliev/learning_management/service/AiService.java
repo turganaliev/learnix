@@ -42,9 +42,9 @@ public class AiService {
             ResponseEntity<Map> response = restTemplate.postForEntity(url, request, Map.class);
             return extractText(response.getBody());
         } catch (HttpClientErrorException.TooManyRequests e) {
-            return "The AI assistant is very busy right now. Please try again in a moment.";
+            return "Rate limit reached. Please wait a few seconds before asking again.";
         } catch (RestClientException e) {
-            return "Sorry, the AI assistant is temporarily unavailable. Please try again later.";
+            return "The assistant is temporarily unavailable. Please try again shortly.";
         }
     }
 

@@ -2,8 +2,10 @@ import React, { useState, useRef, useEffect } from 'react';
 import api from './api';
 import ChatSidebar from './ChatSidebar';
 import ReactMarkdown from 'react-markdown';
+import { useNavigate } from 'react-router-dom';
 
 function Chat() {
+  const navigate = useNavigate();
   const [input, setInput] = useState('');
   const [messages, setMessages] = useState([]);
   const [loading, setLoading] = useState(false);
@@ -61,12 +63,18 @@ function Chat() {
     setSessionId(null);
   };
 
+  const handleLogout = () => {
+    localStorage.removeItem('token');
+    navigate('/login');
+  };
+
     return (
       <div className="chat-layout">
         <aside className="sidebar">
           <h1 className="brand">Learnix</h1>
           <button className="btn-new" onClick={handleNewChat}>New conversation</button>
           <ChatSidebar onSelectSession={handleSelectSession} refreshTrigger={refreshTrigger} activeSessionId={sessionId} />
+          <button className="btn-logout" onClick={handleLogout}>Sign out</button>
         </aside>
 
         <main className="chat-main">
