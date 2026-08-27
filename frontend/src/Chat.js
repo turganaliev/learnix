@@ -1,6 +1,7 @@
 import React, { useState, useRef, useEffect } from 'react';
 import api from './api';
 import ChatSidebar from './ChatSidebar';
+import ReactMarkdown from 'react-markdown';
 
 function Chat() {
   const [input, setInput] = useState('');
@@ -60,37 +61,54 @@ function Chat() {
     setSessionId(null);
   };
 
-  return (
-    <div style={{ display: 'flex', gap: '20px', alignItems: 'flex-start', padding: '20px' }}>
-      <div>
-        <button onClick={handleNewChat}>New Chat</button>
-        <ChatSidebar onSelectSession={handleSelectSession} refreshTrigger={refreshTrigger} />
+    return (
+      <div className="chat-layout">
+        <aside className="sidebar">
+          <h1 className="brand">Learnix</h1>
+          <button className="btn-new" onClick={handleNewChat}>New conversation</button>
+          <ChatSidebar onSelectSession={handleSelectSession} refreshTrigger={refreshTrigger} activeSessionId={sessionId} />
+        </aside>
+
+        <main className="chat-main">
+          <div className="chat-scroll">
+            <div className="chat-inner">
+              {messages.length === 0 && !loading && (
+                <div className="chat-empty">
+                  <h2>Ask about anything you're studying</h2>
+                  <p>Your conversations are saved and you can pick them up later.</p>
+                </div>
+              )}
+
+              {messages.map((msg) => (
+                <div key={msg.id} className={`msg msg-${msg.sender}`}>
+                  <p className="msg-label">{msg.sender === 'user' ? 'You' : 'Assistant'}</p>
+                  {msg.sender === 'ai' ? (
+                    <div className="msg-body"><ReactMarkdown>{msg.text}</ReactMarkdown></div>
+                  ) : (
+                    <p className="msg-body">{msg.text}</p>
+                  )}
+                </div>
+              ))}
+
+              {loading && <p className="thinking">Thinking…</p>}
+              <div ref={messagesEndRef} />
+            </div>
+          </div>
+
+          <div className="composer">
+            <div className="composer-inner">
+              <input
+                value={input}
+                placeholder="Ask a question…"
+                onChange={(e) => setInput(e.target.value)}
+                onKeyDown={(e) => { if (e.key === 'Enter') handleSend(); }}
+              />
+              <button onClick={handleSend}>Send</button>
+            </div>
+          </div>
+        </main>
       </div>
-      <div>
-        <h1>Chat</h1>
-        <div>
-          {messages.map((msg) => (
-            <p key={msg.id}>
-              <strong>{msg.sender === 'user' ? 'You' : 'AI'}:</strong> {msg.text}
-            </p>
-          ))}
-          {loading && <p><em>AI is thinking...</em></p>}
-          <div ref={messagesEndRef} />
-        </div>
-        <input
-          value={input}
-          placeholder="Type your message..."
-          onChange={(e) => setInput(e.target.value)}
-          onKeyDown={(e) => {
-            if (e.key === 'Enter') {
-              handleSend();
-            }
-          }}
-        />
-        <button onClick={handleSend}>Send</button>
-      </div>
-    </div>
-  );
+    );
 }
 
 export default Chat;
