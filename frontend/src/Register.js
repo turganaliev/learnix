@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import api from './api';
 
 function Register() {
   const [formData, setFormData] = useState({
@@ -17,20 +18,15 @@ function Register() {
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      const response = await fetch('http://localhost:8080/api/users/register', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(formData)
-      });
-      const data = await response.json();
-      if (response.ok) {
-        alert('Registration successful!');
-      } else {
-        setErrors(data);
-      }
+      await api.post('/users/register', formData);
+      alert('Registration successful!')
     } catch (error) {
       console.error('Error:', error);
-      alert('Registration failed!');
+      if (error.response && error.response.data) {
+        setErrors(error.response.data);
+      } else {
+        alert('Registration failed!');
+      }
     }
   };
 

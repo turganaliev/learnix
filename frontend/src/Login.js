@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import { useNavigate, useLocation} from 'react-router-dom';
+import api from './api';
 
 function Login() {
   const [formData, setFormData] = useState({
@@ -18,21 +19,12 @@ function Login() {
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      const response = await fetch('http://localhost:8080/api/users/login', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(formData)
-      });
-      const data = await response.json();
-      if (response.ok) {
-        localStorage.setItem('token', data.token);
-        navigate('/chat');
-      } else {
-        setError('Invalid username or password');
-      }
+      const response = await api.post('/users/login', formData);
+      localStorage.setItem('token', response.data.token);
+      navigate('/chat');
     } catch (error) {
       console.error('Error:', error);
-      setError('Login failed');
+      setError('Invalid username or password');
     }
   };
 
