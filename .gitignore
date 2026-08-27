@@ -49,5 +49,5 @@ logs/
 .DS_Store
 Thumbs.db
 
-application*.properties
+application-dev.properties
 !application*.properties.example
