@@ -8,6 +8,8 @@ Built this as a capstone project to go deeper than a typical CRUD app — the go
 
 > Register an account to try it — conversations are private to each user.
 
+   ![Learnix chat interface](docs/screenshot.png)
+
 ## Features
 
 - **JWT authentication** — register, sign in, sign out, with tokens signed and verified server-side
