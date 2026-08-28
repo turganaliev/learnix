@@ -108,16 +108,3 @@ cd frontend && npm test   # frontend
 ```
 
 Backend tests cover service logic, controllers, and the Gemini integration (with the HTTP client mocked, so tests run offline). Frontend tests cover rendering, user interaction, and API calls including auth headers.
-
-## Known limitations
-
-Being honest about what isn't done yet:
-
-- **No conversational memory.** Each message is sent to Gemini independently, so the assistant doesn't remember earlier turns within a conversation. Fixing this means sending the message history with each request.
-- **CI runs against embedded H2**, not PostgreSQL, since the pipeline has no database service configured. Tests pass, but PostgreSQL-specific behavior isn't verified in CI.
-- **No repository-layer tests** (`@DataJpaTest`) yet.
-- **Course content isn't exposed in the UI.** The `Course` and `Section` models and API endpoints exist, but the frontend doesn't render them yet.
-
-## License
-
-MIT
