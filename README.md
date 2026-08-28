@@ -4,7 +4,8 @@ A learning platform where students can ask an AI assistant about what they're st
 
 Built this as a capstone project to go deeper than a typical CRUD app — the goal was a full-stack application with real authentication, real persistence, and a working third-party AI integration, deployed and reachable rather than just running on my machine.
 
-**Live demo:** [https://learnix-n16i.onrender.com](https://learnix-n16i.onrender.com) ![Learnix chat interface](docs/screenshot.png)
+**Live demo:** [https://learnix-n16i.onrender.com](https://learnix-n16i.onrender.com) 
+![Learnix chat interface](docs/screenshot.png)
 
 > Register an account to try it — conversations are private to each user.
 
