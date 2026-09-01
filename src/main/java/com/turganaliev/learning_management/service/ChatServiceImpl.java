@@ -45,6 +45,10 @@ public class ChatServiceImpl implements ChatService {
         } else {
             chatSession = chatSessionRepository.findById(sessionId)
                     .orElseThrow(() -> new ChatSessionNotFoundException("Chat session not found"));
+
+            if (!chatSession.getUser().getId().equals(user.getId())) {
+                throw new UnauthorizedAccessException("You do not have access to this chat session");
+            }
         }
 
         ChatMessage userMessage = new ChatMessage();
