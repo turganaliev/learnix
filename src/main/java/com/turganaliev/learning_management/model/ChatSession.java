@@ -27,4 +27,9 @@ public class ChatSession {
     @OneToMany(mappedBy = "chatSession", cascade = CascadeType.ALL, orphanRemoval = true)
     @ToString.Exclude
     private List<ChatMessage> messages;
+
+    @ManyToOne
+    @JoinColumn(name = "section_id")
+    @ToString.Exclude
+    private Section section;
 }

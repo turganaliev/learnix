@@ -7,7 +7,7 @@ import com.turganaliev.learning_management.dto.ChatSessionResponseDto;
 import java.util.List;
 
 public interface ChatService {
-    ChatResponseDto chat(String message, Long sessionId);
+    ChatResponseDto chat(String message, Long sessionId, Long sectionId);
     List<ChatSessionResponseDto> getUserSessions();
     List<ChatMessageResponseDto> getSessionMessages(Long sessionId);
 }
