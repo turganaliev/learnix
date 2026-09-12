@@ -42,7 +42,7 @@ class AiServiceTest {
         when(restTemplate.postForEntity(anyString(), any(HttpEntity.class), eq(Map.class)))
                 .thenReturn(ResponseEntity.ok(fakeGeminiResponse));
 
-        String result = aiService.explainWithHistory(List.of(), "explain photosynthesis");
+        String result = aiService.explainWithHistory(List.of(), "explain photosynthesis", null);
 
         assertEquals("Photosynthesis is how plants make food.", result);
     }
@@ -52,7 +52,7 @@ class AiServiceTest {
         when(restTemplate.postForEntity(anyString(), any(HttpEntity.class), eq(Map.class)))
                 .thenThrow(new RestClientException("API unavailable"));
 
-        String result = aiService.explainWithHistory(List.of(), "explain photosynthesis");
+        String result = aiService.explainWithHistory(List.of(), "explain photosynthesis", null);
 
         assertEquals("The assistant is temporarily unavailable. Please try again shortly.", result);
     }

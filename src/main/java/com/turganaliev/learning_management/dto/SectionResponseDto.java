@@ -7,6 +7,7 @@ import lombok.Data;
 @AllArgsConstructor
 public class SectionResponseDto {
     private Long id;
+    private String title;
     private String content;
     private Integer orderIndex;
 }

@@ -34,7 +34,7 @@ public class CourseServiceImpl implements CourseService {
 
         List<Section> sections = sectionRepository.findByCourseOrderByOrderIndexAsc(course);
         return sections.stream()
-                .map(section -> new SectionResponseDto(section.getId(), section.getContent(), section.getOrderIndex()))
+                .map(section -> new SectionResponseDto(section.getId(), section.getTitle(), section.getContent(), section.getOrderIndex()))
                 .collect(Collectors.toList());
     }
 }

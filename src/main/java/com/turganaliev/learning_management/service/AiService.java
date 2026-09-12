@@ -10,6 +10,7 @@ import org.springframework.web.client.RestClientException;
 import org.springframework.web.client.RestTemplate;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -25,7 +26,7 @@ public class AiService {
         this.restTemplate = restTemplate;
     }
 
-    public String explainWithHistory(List<ChatMessage> history, String newMessage) {
+    public String explainWithHistory(List<ChatMessage> history, String newMessage, String systemContext) {
         String url = "https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash:generateContent?key=" + apiKey;
 
         List<Map<String, Object>> contents = new ArrayList<>();
@@ -43,7 +44,12 @@ public class AiService {
                 "parts", List.of(Map.of("text", newMessage))
         ));
 
-        Map<String, Object> requestBody = Map.of("contents", contents);
+        Map<String, Object> requestBody = new HashMap<>();
+        requestBody.put("contents", contents);
+        if (systemContext != null) {
+            requestBody.put("system_instruction",
+                    Map.of("parts", List.of(Map.of("text", systemContext))));
+        }
 
         HttpHeaders headers = new HttpHeaders();
         headers.setContentType(MediaType.APPLICATION_JSON);

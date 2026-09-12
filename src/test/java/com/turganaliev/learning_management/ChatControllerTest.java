@@ -46,7 +46,7 @@ class ChatControllerTest {
         ChatRequestDto dto = new ChatRequestDto();
         dto.setMessage("explain photosynthesis");
 
-        when(chatService.chat(any(), any())).thenReturn(new ChatResponseDto("AI explanation here", 1L));
+        when(chatService.chat(any(), any(), any())).thenReturn(new ChatResponseDto("AI explanation here", 1L));
 
         mockMvc.perform(post("/api/chat/request")
                         .contentType(MediaType.APPLICATION_JSON)
